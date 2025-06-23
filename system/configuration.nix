@@ -124,6 +124,7 @@
 
   services.openssh.enable = true;
 
+  users.defaultUserShell = pkgs.zsh;
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.n1t3 = {
     isNormalUser = true;
@@ -132,7 +133,7 @@
       tree
     ];
   };
-
+  environment.shells = with pkgs; [zsh];
   age.secrets.password.file = ../secrets/secret.age;
   age.identityPaths = [
     "/nix/persist/system/etc/ssh/ssh_host_ed25519_key"
@@ -140,6 +141,8 @@
   ];
 
   users.users.n1t3.hashedPasswordFile = config.age.secrets.password.path;
+  programs.zsh.enable = true;
+
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
