@@ -23,6 +23,7 @@
   fonts.fontconfig.enable = true;
 
   home.packages = [
+    pkgs.libreoffice-qt
     pkgs.inter
     pkgs.cntr
     pkgs.gnome-tweaks
@@ -232,6 +233,30 @@
       '';
     };
   };
+
+  programs.zsh = {
+    enable = true;
+    enableCompletion = true;
+    enableVteIntegration = true;
+    autosuggestion.enable = true;
+    oh-my-zsh = {
+      enable = true;
+      theme = "robbyrussell";
+    };
+    syntaxHighlighting.enable = true;
+    dotDir = ".config/zsh";
+  };
+
+  programs.zoxide = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+  programs.kitty.shellIntegration.enableZshIntegration = true;
+  programs.eza = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+  home.shell.enableZshIntegration = true;
 
   home.sessionVariables.GTK_THEME = "WhiteSur-Dark-red";
 
