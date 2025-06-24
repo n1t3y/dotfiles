@@ -152,6 +152,9 @@
       package = pkgs.nerd-fonts.iosevka-term-slab;
       size = 12;
     };
+    keybindings = {
+      "ctrl+shift+f11" = "toggle_fullscreen";
+    };
     enableGitIntegration = true;
     settings = {
       cursor_shape = "beam";
