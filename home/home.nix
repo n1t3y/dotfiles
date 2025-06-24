@@ -22,14 +22,16 @@
 
   fonts.fontconfig.enable = true;
 
-  home.packages = [
-    pkgs.libreoffice-qt
-    pkgs.inter
-    pkgs.cntr
-    pkgs.gnome-tweaks
-    pkgs.gnomeExtensions.blur-my-shell
-    pkgs.gnomeExtensions.gsconnect
-    pkgs.gnomeExtensions.user-themes
+  home.packages = with pkgs; [
+    gimp
+    libreoffice-qt
+    inter
+    cntr
+    gnome-tweaks
+    gnomeExtensions.blur-my-shell
+    gnomeExtensions.gsconnect
+    gnomeExtensions.user-themes
+    kotatogram-desktop
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
@@ -79,6 +81,12 @@
   #
   #  /etc/profiles/per-user/n1t3/etc/profile.d/hm-session-vars.sh
   #
+
+  programs.vscode = {
+    enable = true;
+    extensions = with pkgs.vscode-extensions; [
+    ];
+  };
 
   programs.git = {
     enable = true;
