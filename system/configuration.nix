@@ -13,6 +13,10 @@
     ./hardware-configuration.nix
   ];
 
+  services.logind.lidSwitch = "poweroff";
+  services.logind.lidSwitchExternalPower = "lock";
+  services.logind.lidSwitchDocked = "ignore";
+
   environment.persistence."/nix/persist/system" = {
     enable = true; # NB: Defaults to true, not needed
     hideMounts = true;
