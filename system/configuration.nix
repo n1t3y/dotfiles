@@ -1,6 +1,3 @@
-# Edit this configuration file to define what should be installed on
-# your system. Help is available in the configuration.nix(5) man page, on
-# https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 {
   config,
   lib,
@@ -9,41 +6,8 @@
   ...
 }: {
   imports = [
-    # Include the results of the hardware scan.
-    ./hardware-configuration.nix
+    ./hardware.nix
   ];
-
-  services.logind.lidSwitch = "poweroff";
-  services.logind.lidSwitchExternalPower = "lock";
-  services.logind.lidSwitchDocked = "ignore";
-
-  environment.persistence."/nix/persist/system" = {
-    enable = true; # NB: Defaults to true, not needed
-    hideMounts = true;
-    directories = [
-      "/etc/nixos"
-      "/etc/ssh/"
-      "/var/log"
-      "/var/lib/bluetooth"
-      "/var/lib/nixos"
-      "/var/lib/sbctl"
-      "/var/lib/systemd/coredump"
-      "/etc/NetworkManager/system-connections"
-      {
-        directory = "/var/lib/colord";
-        user = "colord";
-        group = "colord";
-        mode = "u=rwx,g=rx,o=";
-      }
-    ];
-    files = [
-      "/etc/machine-id"
-      {
-        file = "/var/keys/secret_file";
-        parentDirectory = {mode = "u=rwx,g=,o=";};
-      }
-    ];
-  };
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
   boot.kernelPackages = pkgs.linuxPackages_zen;
@@ -108,6 +72,10 @@
   services.displayManager.gdm.enable = true;
   services.desktopManager.gnome.enable = true;
 
+  services.fprintd = {
+    enable = true;
+  };
+
   # Configure keymap in X11
   # services.xserver.xkb.layout = "us";
   # services.xserver.xkb.options = "eurosign:e,caps:escape";
@@ -146,6 +114,25 @@
 
   users.users.n1t3.hashedPasswordFile = config.age.secrets.password.path;
   programs.zsh.enable = true;
+
+  programs.nekoray = {
+    enable = true;
+    tunMode.enable = true;
+  };
+
+  services.zapret = {
+    enable = false;
+    udpSupport = true;
+    udpPorts = ["50000:50099" "443" "7844"];
+    params = [
+      "--dpi-desync-any-protocol"
+      "--dpi-desync=fake"
+      "--dpi-desync-fooling=badseq"
+      "--dpi-desync-fake-tls=0x00000000"
+      "--dpi-desync-fake-tls=!"
+      "--dpi-desync-fake-tls-mod=rnd,rndsni,dupsid"
+    ];
+  };
 
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
