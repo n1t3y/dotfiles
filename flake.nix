@@ -42,6 +42,11 @@
         inputs.impermanence.nixosModules.impermanence
         inputs.agenix.nixosModules.default
         system/configuration.nix
+        system/filesystems.nix
+        system/hardware.nix
+        system/impermanence.nix
+        system/power.nix
+        system/boot.nix
       ];
     };
     homeConfigurations."n1t3" = inputs.home-manager.lib.homeManagerConfiguration {
@@ -52,6 +57,7 @@
       modules = [
         inputs.nvf.homeManagerModules.default
         home/home.nix
+        home/browser.nix
       ];
 
       # Optionally use extraSpecialArgs

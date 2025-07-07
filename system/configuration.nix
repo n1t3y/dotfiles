@@ -5,35 +5,13 @@
   inputs,
   ...
 }: {
-  imports = [
-    ./hardware.nix
-  ];
+  imports = [./hardware.nix];
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
-  boot.kernelPackages = pkgs.linuxPackages_zen;
-  boot.supportedFilesystems = ["btrfs"];
   hardware.enableAllFirmware = true;
   nixpkgs.config.allowUnfree = true;
 
-  # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = false;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  boot.lanzaboote = {
-    enable = true;
-    pkiBundle = "/var/lib/sbctl";
-  };
-  # boot.loader.grub = {
-  #   enable = true;
-  #   version = 2;
-  #   device = "nodev";
-  #   efiSupport = true;
-  #   enableCryptodisk = true;
-  # };
-
   networking.hostName = "spellbook"; # Define your hostname.
-  # Pick only one of the below networking options.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
   networking.firewall = {
@@ -50,25 +28,12 @@
     '';
   };
 
-  # Set your time zone.
   time.timeZone = "Europe/Moscow";
 
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
-  # console = {
-  #   font = "Lat2-Terminus16";
-  #   keyMap = "us";
-  #   useXkbConfig = true; # use xkb.options in tty.
-  # };
 
-  # Enable the X11 windowing system.
   services.xserver.enable = true;
 
-  # Enable the GNOME Desktop Environment.
   services.displayManager.gdm.enable = true;
   services.desktopManager.gnome.enable = true;
 
@@ -120,19 +85,6 @@
     tunMode.enable = true;
   };
 
-  services.zapret = {
-    enable = false;
-    udpSupport = true;
-    udpPorts = ["50000:50099" "443" "7844"];
-    params = [
-      "--dpi-desync-any-protocol"
-      "--dpi-desync=fake"
-      "--dpi-desync-fooling=badseq"
-      "--dpi-desync-fake-tls=0x00000000"
-      "--dpi-desync-fake-tls=!"
-      "--dpi-desync-fake-tls-mod=rnd,rndsni,dupsid"
-    ];
-  };
 
   # List packages installed in system profile.
   # You can use https://search.nixos.org/ to find more packages (and options).
@@ -144,46 +96,5 @@
     inputs.agenix.packages."${system}".default
   ];
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
-  # Copy the NixOS configuration file and link it from the resulting system
-  # (/run/current-system/configuration.nix). This is useful in case you
-  # accidentally delete configuration.nix.
-  # system.copySystemConfiguration = true;
-
-  # This option defines the first version of NixOS you have installed on this particular machine,
-  # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
-  #
-  # Most users should NEVER change this value after the initial install, for any reason,
-  # even if you've upgraded your system to a new NixOS release.
-  #
-  # This value does NOT affect the Nixpkgs version your packages and OS are pulled from,
-  # so changing it will NOT upgrade your system - see https://nixos.org/manual/nixos/stable/#sec-upgrading for how
-  # to actually do that.
-  #
-  # This value being lower than the current NixOS release does NOT mean your system is
-  # out of date, out of support, or vulnerable.
-  #
-  # Do NOT change this value unless you have manually inspected all the changes it would make to your configuration,
-  # and migrated your data accordingly.
-  #
-  # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
-  system.stateVersion = "25.05"; # Did you read the comment?
+  system.stateVersion = "25.05";
 }
